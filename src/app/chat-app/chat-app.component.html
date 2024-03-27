@@ -1,0 +1,28 @@
+<ng-container>
+  @if (!isJoined) {
+  <form class="chat-input" (ngSubmit)="joinChat(userName.value)">
+    <input type="text" #userName placeholder="Enter your name" class="chat-input">
+    <button type="submit" class="chat-button">Join Chat</button>
+  </form>
+  }
+</ng-container>
+
+@if (isJoined) {
+<div class="chat-container">
+  <div class="chat-messages" #chatMessages>
+    @for (message of userMessages; track $index) {
+    <div class="message" [ngClass]="{'self': message.user === currentUser}">
+      @if (message.user) {
+      <span class="user">{{ message.user }}:</span>
+      }
+      <span class="text">{{ message.message }}</span>
+    </div>
+    }
+  </div>
+
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="newMessage" placeholder="Type your message..." (keydown.enter)="sendMessage()">
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
+}
